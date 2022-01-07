@@ -26,3 +26,5 @@ Create a Pull Request for AWS CDK
 
 - Use `ncu` to upgrade the package in your `package.json`
 - Make a Pull Request towards the specified base branch (_Default:_ `main`)
+- This action uses the following awsome Github Action for Pull Request Action.
+    - https://github.com/peter-evans/create-pull-request
