@@ -92,15 +92,17 @@ runs:
     - name: Post build result comment to PR
       env:
         GITHUB_TOKEN: ${{ inputs.token }}
-        COMMIT_COMMENT_URL: |
-          https://api.github.com/repos/${{ github.repository }}/commits/${{ steps.create-pr.outputs.pull-request-head-sha }}/comments
+        COMMIT_COMMENT_URL: https://api.github.com/repos/${{ github.repository }}/commits/${{ steps.create-pr.outputs.pull-request-head-sha }}/comments
         COMMENT_FILE: comment-${{ steps.date.outputs.date }}.md
       run: |
         curl -i -X POST \
                -H "Authorization: token ${GITHUB_TOKEN}" \
                -H "Content-Type: application/vnd.github.v3+json" \
                -H "Accept: application/vnd.github.v3+json" \
-               "${COMMIT_COMMENT_URL}" \
+               ${COMMIT_COMMENT_URL} \
                -d "{\"body\": \"$(cat ${COMMENT_FILE})\"}"
-        rm -f ${COMMENT_FILE}
+      shell: sh
+
+    - name: Remove comment file
+      run: rm -f comment-${{ steps.date.outputs.date }}.md
       shell: sh
