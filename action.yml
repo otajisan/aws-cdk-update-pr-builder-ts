@@ -76,8 +76,12 @@ runs:
         draft: false
 
     - name: Try to build package and output to tmp file.
-      run: npm run build > comment-${{ steps.date.outputs.date }}.md
+      run: |
+        echo "\`\`\`" > comment-${{ steps.date.outputs.date }}.md
+        npm run build >> comment-${{ steps.date.outputs.date }}.md
+        echo "\`\`\`" > comment-${{ steps.date.outputs.date }}.md
       shell: sh
+      continue-on-error: true
 
     - name: Post build result comment to PR
       env:
