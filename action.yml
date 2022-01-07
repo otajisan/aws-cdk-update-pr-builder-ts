@@ -84,6 +84,7 @@ runs:
       shell: sh
 
     - name: Preview comment
+      if: ${{ always() }}
       run: cat comment-${{ steps.date.outputs.date }}.md
       shell: sh
 
