@@ -9,7 +9,7 @@ inputs:
 
   token:
     description: "Github Token (Like Personal Access Token)  "
-    required: false
+    required: true
 
   base-branch:
     default: 'main'
