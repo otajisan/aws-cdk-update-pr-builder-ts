@@ -78,9 +78,7 @@ runs:
     - name: Try to build package and output to tmp file.
       run: |
         echo "\`\`\`node" > comment-${{ steps.date.outputs.date }}.md
-        # TODO: @otajisan
-        #npm run build >> comment-${{ steps.date.outputs.date }}.md || true
-        echo "please confirm update contents." >> comment-${{ steps.date.outputs.date }}.md
+        npm run build >> comment-${{ steps.date.outputs.date }}.md || true
         echo "\`\`\`" >> comment-${{ steps.date.outputs.date }}.md
         sed -i -z 's/\n/\\n/g' comment-${{ steps.date.outputs.date }}.md
       shell: sh
