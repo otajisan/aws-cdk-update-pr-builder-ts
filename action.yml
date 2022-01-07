@@ -43,8 +43,10 @@ runs:
       run: npm i -g npm-check-updates
       shell: sh
 
-    - name: Run npm-check-updates
-      run: ncu -u
+    - name: Run npm-check-updates for AWS CDK
+      run: |
+        ncu -u
+          $(cat package.json | grep aws-cdk | awk '!/^#/{n=split($0, ary, ":"); print(ary[1])}' | tr -d "\"")
       shell: sh
 
     - name: Update packages.json
@@ -71,3 +73,7 @@ runs:
         assignees: ${{ inputs.assignees }}
         reviewers: ${{ inputs.reviewers }}
         draft: false
+
+    - name: Build package
+      run: npm run build
+      shell: sh
