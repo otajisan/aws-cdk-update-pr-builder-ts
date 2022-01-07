@@ -68,7 +68,7 @@ runs:
         branch: upgrade/aws-cdk-${{ steps.date.outputs.date }}
         delete-branch: true
         title: ${{ steps.date.outputs.date }} Upgrade AWS CDK
-        body: " - [upgrade/aws-cdk](https://github.com/aws/aws-cdk/releases)"
+        body: " - [Release Notes](https://github.com/aws/aws-cdk/releases)"
         labels: |
           upgrade-aws-cdk
         assignees: ${{ inputs.assignees }}
@@ -77,6 +77,9 @@ runs:
 
     - name: Try to build package and output to tmp file.
       run: |
+        echo "# AWS CDK build info" > comment-${{ steps.date.outputs.date }}.md
+        echo "*Build result*" > comment-${{ steps.date.outputs.date }}.md
+        echo "- please confirm build result and fix if error." > comment-${{ steps.date.outputs.date }}.md
         echo "\`\`\`node" > comment-${{ steps.date.outputs.date }}.md
         npm run build >> comment-${{ steps.date.outputs.date }}.md || true
         echo "\`\`\`" >> comment-${{ steps.date.outputs.date }}.md
