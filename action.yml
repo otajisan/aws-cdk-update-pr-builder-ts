@@ -77,7 +77,7 @@ runs:
 
     - name: Try to build package and output to tmp file.
       run: |
-        echo "\`\`\`" > comment-${{ steps.date.outputs.date }}.md
+        echo "\`\`\`node" > comment-${{ steps.date.outputs.date }}.md
         npm run build >> comment-${{ steps.date.outputs.date }}.md || true
         echo "\`\`\`" >> comment-${{ steps.date.outputs.date }}.md
         sed -i -z 's/\n/\\n/g' comment-${{ steps.date.outputs.date }}.md
@@ -99,7 +99,6 @@ runs:
                -H "Content-Type: application/vnd.github.v3+json" \
                -H "Accept: application/vnd.github.v3+json" \
                "${COMMIT_COMMENT_URL}" \
-               -d "{\"body\": \"$(cat ${COMMENT_FILE})\"}" \
-               -o /dev/null -w '%{http_code}'
+               -d "{\"body\": \"$(cat ${COMMENT_FILE})\"}"
         rm -f ${COMMENT_FILE}
       shell: sh
