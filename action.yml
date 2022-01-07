@@ -78,7 +78,9 @@ runs:
     - name: Try to build package and output to tmp file.
       run: |
         echo "\`\`\`node" > comment-${{ steps.date.outputs.date }}.md
-        npm run build >> comment-${{ steps.date.outputs.date }}.md || true
+        # TODO: @otajisan
+        #npm run build >> comment-${{ steps.date.outputs.date }}.md || true
+        echo "please confirm update contents." >> comment-${{ steps.date.outputs.date }}.md
         echo "\`\`\`" >> comment-${{ steps.date.outputs.date }}.md
         sed -i -z 's/\n/\\n/g' comment-${{ steps.date.outputs.date }}.md
       shell: sh
@@ -94,7 +96,7 @@ runs:
           https://api.github.com/repos/${{ github.repository }}/commits/${{ steps.create-pr.outputs.pull-request-head-sha }}/comments
         COMMENT_FILE: comment-${{ steps.date.outputs.date }}.md
       run: |
-        curl -s -X POST \
+        curl -i -X POST \
                -H "Authorization: token ${GITHUB_TOKEN}" \
                -H "Content-Type: application/vnd.github.v3+json" \
                -H "Accept: application/vnd.github.v3+json" \
