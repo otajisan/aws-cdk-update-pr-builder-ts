@@ -58,6 +58,7 @@ runs:
       shell: sh
 
     - name: Create Pull Request
+      id: create-pr
       uses: peter-evans/create-pull-request@v3
       with:
         token: ${{ inputs.token }}
@@ -74,6 +75,18 @@ runs:
         reviewers: ${{ inputs.reviewers }}
         draft: false
 
-    - name: Build package
-      run: npm run build
+    - name: Try to build package and output to tmp file.
+      run: npm run build > comment-${{ steps.date.outputs.date }}.md
       shell: sh
+
+    - name: Post build result comment to PR
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
+        PR_COMMENT_URL: ${{ steps.create-pr.outputs.pull-request-url }}/comments
+        COMMENT_FILE: comment-${{ steps.date.outputs.date }}.md
+      run: |
+        curl -X POST \
+             -H "Authorization: token ${GITHUB_TOKEN}" \
+             -d "{\"body\": \"$(cat ${COMMENT_FILE})\"}" \
+             ${PR_COMMENT_URL}
+        rm -f ${COMMENT_FILE}
