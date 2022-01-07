@@ -90,3 +90,4 @@ runs:
              -d "{\"body\": \"$(cat ${COMMENT_FILE})\"}" \
              ${PR_COMMENT_URL}
         rm -f ${COMMENT_FILE}
+      shell: sh
