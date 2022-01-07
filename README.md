@@ -2,7 +2,8 @@
 
 Create a Pull Request for AWS CDK
 
-![image](https://user-images.githubusercontent.com/5608492/148481288-aa3c9f69-1ec1-4963-a324-e5c1133dbd86.png)
+![image](https://user-images.githubusercontent.com/5608492/148499646-bac49eaa-906f-446b-b410-76ab092d41f1.png)
+
 
 ## Usage
 
@@ -24,7 +25,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v1
       - name: Create AWS CDK Update PR
-        uses: otajisan/aws-cdk-update-pr-builder-ts@v1
+        uses: otajisan/aws-cdk-update-pr-builder-ts@v0.0.4
         with:
           token: ${{ secrets.CR_PAT }} # Github Personal Access Token
           assignees: otajisan
@@ -36,8 +37,8 @@ jobs:
 
 | Name         | Required | Description                                                | Default |
 |--------------|----------|------------------------------------------------------------|---------|
+| token        | true     | Github Token (Like Personal Access Token)                  |         |
 | node-version | false    | version of nodejs                                          | `16.x`  |
-| token        | false    | Github Token (Like Personal Access Token)                  |         |
 | base-branch  | false    | base branch when creating a Pull Request                   | `main`  |
 | assignees    | false    | Pull Request Assignees (a comma or newline separated list) |         |
 | reviewers    | false    | Pull Request Reviewers (a comma or newline separated list) |         |
@@ -69,3 +70,9 @@ Upgrading /home/runner/work/eks-cdk/eks-cdk/package.json
 - Make a Pull Request towards the specified base branch (_Default:_ `main`)
 - This action uses the following awsome Github Action for Pull Request Action.
     - https://github.com/peter-evans/create-pull-request
+- And then try `npm run build` and comment build result to created PR.
+
+![image](https://user-images.githubusercontent.com/5608492/148499669-8b291b93-1c8c-4371-b4ff-97db0f429322.png)
+
+# LICENSE
+- [MIT](https://github.com/otajisan/aws-cdk-update-pr-builder-ts/blob/main/LICENSE)
