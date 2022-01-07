@@ -45,7 +45,7 @@ runs:
 
     - name: Run npm-check-updates for AWS CDK
       run: |
-        ncu -u
+        ncu -u \
           $(cat package.json | grep aws-cdk | awk '!/^#/{n=split($0, ary, ":"); print(ary[1])}' | tr -d "\"")
       shell: sh
 
