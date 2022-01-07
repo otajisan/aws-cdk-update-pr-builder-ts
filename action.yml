@@ -1,0 +1,73 @@
+name: 'AWS CDK update Pull Request Builder Github Action for TypeScript'
+description: 'Check AWS CDK latest update and build pull request'
+
+inputs:
+  node-version:
+    default: '16.x'
+    required: false
+    description: 'version of nodejs'
+
+  token:
+    description: "Github Token (Like Personal Access Token)  "
+    required: false
+
+  base-branch:
+    default: 'main'
+    required: false
+    description: "base branch when creating a Pull Request"
+
+  assignees:
+    default: ''
+    required: false
+    description: 'Pull Request Assignees (a comma or newline separated list)'
+
+  reviewers:
+    default: ''
+    required: false
+    description: 'Pull Request Reviewers (a comma or newline separated list)'
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y%m%d')"
+      shell: sh
+
+    - name: Setup Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ inputs.node-version }}
+
+    - name: Install npm-check-updates
+      run: npm i -g npm-check-updates
+      shell: sh
+
+    - name: Run npm-check-updates
+      run: ncu -u
+      shell: sh
+
+    - name: Update packages.json
+      run: npm ci
+      shell: sh
+
+    - name: Check git status
+      run: git status
+      shell: sh
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v3
+      with:
+        token: ${{ inputs.token }}
+        commit-message: ${{ steps.date.outputs.date }} Upgrade AWS CDK
+        signoff: false
+        base: ${{ inputs.base-branch }}
+        branch: upgrade/aws-cdk-${{ steps.date.outputs.date }}
+        delete-branch: true
+        title: ${{ steps.date.outputs.date }} Upgrade AWS CDK
+        body: " - [upgrade/aws-cdk](https://github.com/aws/aws-cdk/releases)"
+        labels: |
+          upgrade-aws-cdk
+        assignees: ${{ inputs.assignees }}
+        reviewers: ${{ inputs.reviewers }}
+        draft: false
