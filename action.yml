@@ -77,10 +77,11 @@ runs:
 
     - name: Try to build package and output to tmp file.
       run: |
-        echo "# AWS CDK build info" > comment-${{ steps.date.outputs.date }}.md
-        echo "*Build result*" > comment-${{ steps.date.outputs.date }}.md
-        echo "- please confirm build result and fix if error." > comment-${{ steps.date.outputs.date }}.md
-        echo "\`\`\`node" > comment-${{ steps.date.outputs.date }}.md
+        touch comment-${{ steps.date.outputs.date }}.md
+        echo "# AWS CDK build info" >> comment-${{ steps.date.outputs.date }}.md
+        echo "*Build result*" >> comment-${{ steps.date.outputs.date }}.md
+        echo "- please confirm build result and fix if error." >> comment-${{ steps.date.outputs.date }}.md
+        echo "\`\`\`node" >> comment-${{ steps.date.outputs.date }}.md
         npm run build >> comment-${{ steps.date.outputs.date }}.md || true
         echo "\`\`\`" >> comment-${{ steps.date.outputs.date }}.md
         sed -i -z 's/\n/\\n/g' comment-${{ steps.date.outputs.date }}.md
