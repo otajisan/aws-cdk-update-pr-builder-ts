@@ -78,18 +78,16 @@ runs:
     - name: Try to build package and output to tmp file.
       run: |
         echo "\`\`\`" > comment-${{ steps.date.outputs.date }}.md
-        npm run build >> comment-${{ steps.date.outputs.date }}.md
+        npm run build || true > comment-${{ steps.date.outputs.date }}.md
         echo "\`\`\`" >> comment-${{ steps.date.outputs.date }}.md
         sed -i -z 's/\n/\\n/g' comment-${{ steps.date.outputs.date }}.md
       shell: sh
 
     - name: Preview comment
-      if: ${{ always() }}
       run: cat comment-${{ steps.date.outputs.date }}.md
       shell: sh
 
     - name: Post build result comment to PR
-      if: ${{ always() }}
       env:
         GITHUB_TOKEN: ${{ inputs.token }}
         PR_COMMENT_URL: ${{ steps.create-pr.outputs.pull-request-url }}/comments
