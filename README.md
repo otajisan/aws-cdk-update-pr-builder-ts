@@ -49,7 +49,8 @@ jobs:
 ## Action behavior
 
 - Use `ncu` to upgrade the package in your `package.json`
-```js
+
+```bash
 Run ncu -u
   ncu -u
   shell: /usr/bin/sh -e {0}
@@ -63,12 +64,8 @@ Upgrading /home/runner/work/eks-cdk/eks-cdk/package.json
  @aws-cdk/aws-iam  ^1.137.0  →  ^1.138.0     
  @types/node         17.0.7  →    17.0.8     
  aws-cdk              2.3.0  →     2.4.0     
- jest               ^27.4.5  →   ^27.4.7     
 ```
+
 - Make a Pull Request towards the specified base branch (_Default:_ `main`)
 - This action uses the following awsome Github Action for Pull Request Action.
     - https://github.com/peter-evans/create-pull-request
-
-## Problems
-- The `ncu -u` command upgrades `package.json`, but the current command upgrades packages other than `aws-cdk` at the same time.
-  - I think it's fine, but it would be better if it could limit the scope
